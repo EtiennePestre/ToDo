@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Lists
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,14 +13,21 @@
     </ion-toolbar>
   </ion-header>
 
-
+  <div id="container">
     <ion-list>
-      <ion-item *ngFor="let list of this.listService.getAll() ;">
-        <ion-label routerLink="/liste-detail"+"er">{{list.getName()}}</ion-label>
-      </ion-item>
-    </ion-list>
-
-  <ion-footer id="footer">
-    <p routerLink="createTodo">Add a new list</p>
-  </ion-footer>
+      <!-- Sliding item with text options on both sides -->
+      <ion-item-sliding *ngFor="let list of lists">
+             <ion-item [routerLink]="['/list-details/' + list.id ]" routerLinkActive="active">
+          <ion-label>{{ list.name }}</ion-label>
+        </ion-item>
+    
+        <ion-item-options side="end">
+          <ion-item-option (click)="delete(list)" color="danger">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      </ion-list>
+<ion-button class="bottom-btn" expand="block" fill="outline" (click)="openCreateModal()">Add a new list</ion-button>
+  </div>
 </ion-content>
