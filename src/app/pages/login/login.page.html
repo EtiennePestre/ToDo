@@ -1,0 +1,42 @@
+<ion-content class="ion-text-center">
+  <section class="ion-margin-vertical">
+    <ion-button color="dark" expand="block" shape="round" fill="outline" large (click)="withEmail = !withEmail">
+      <ion-icon slot="end" name="mail"></ion-icon>
+      With email
+    </ion-button>
+  </section>
+  <div *ngIf="withEmail">
+    <section class="ion-margin-vertical">
+      <form [formGroup]="login" (ngSubmit)="loginForm()">
+        <ion-item>
+          <ion-label>Email</ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
+        <div class="text-danger" *ngIf="login.invalid && login.get('email').touched && login.get('email').errors">
+          <small *ngIf="login.get('email').errors.required">Field is required</small>
+          <small *ngIf="login.get('email').errors.email">Not a valid email</small>
+        </div>
+        <ion-item>
+          <ion-label>Password</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <div class="text-danger" *ngIf="login.invalid && login.get('password').touched && login.get('password').errors">
+          <small *ngIf="login.get('password').errors.required">Field is required</small>
+        </div>
+        <ion-button color="secondary" expand="block" shape="round" fill="outline" type="submit" large
+          [disabled]="login.invalid">
+          <ion-icon slot="end" name="home"></ion-icon>
+          Login
+        </ion-button>
+      </form>
+    </section>
+
+    <section class="ion-margin-vertical">
+      <ion-label>No Account yet ?</ion-label>
+      <ion-button color="secondary" expand="block" shape="round" fill="outline" type="submit" large
+        [routerLink]="['/register']">
+        Register
+      </ion-button>
+    </section>
+  </div>
+</ion-content>

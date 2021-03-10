@@ -1,0 +1,24 @@
+<ion-content>
+  <form [formGroup]="register" (ngSubmit)="registerForm()">
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <div class="text-danger" *ngIf="register.invalid && register.get('email').touched && register.get('email').errors">
+      <small *ngIf="register.get('email').errors.required">Field is required</small>
+      <small *ngIf="register.get('email').errors.email">Not a valid email</small>
+    </div>
+    <ion-item>
+      <ion-label>Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <div class="text-danger"
+      *ngIf="register.invalid && register.get('password').touched && register.get('password').errors">
+      <small *ngIf="register.get('password').errors.required">Field is required</small>
+    </div>
+    <ion-button [disabled]="register.invalid" color="secondary" expand="block" shape="round" fill="outline"
+      type="submit" large>
+      Register
+    </ion-button>
+  </form>
+</ion-content>

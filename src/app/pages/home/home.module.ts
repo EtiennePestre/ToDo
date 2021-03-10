@@ -5,7 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { CreateListComponent } from '../modals/create-list/create-list.component';
+import { CreateListComponent } from '../../modals/create-list/create-list.component';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { CreateListComponent } from '../modals/create-list/create-list.component
     FormsModule,
     ReactiveFormsModule
   ],
+  entryComponents: [HeaderComponent],
   declarations: [HomePage, CreateListComponent]
 })
 export class HomePageModule {}

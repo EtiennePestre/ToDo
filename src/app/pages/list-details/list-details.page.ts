@@ -13,12 +13,11 @@ import { ActivatedRoute } from '@angular/router';
 export class ListDetailsPage implements OnInit {
   private list: List;
 
-  constructor(private listService: ListService, private modalController: ModalController, private route: ActivatedRoute) {
-   }
+  constructor(private listService: ListService, private modalController: ModalController, private route: ActivatedRoute) { }
 
   ngOnInit() {
-  const listId = this.route.snapshot.paramMap.get('listId');
-  this.list = this.listService.getOne(listId)
+  const listId = this.route.snapshot.paramMap.get('listId')
+   this.list = this.listService.getOne(listId)
   }
 
   async openCreateModal(){

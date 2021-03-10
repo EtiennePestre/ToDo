@@ -6,7 +6,7 @@ import { Todo } from '../models/todo';
   providedIn: 'root'
 })
 export class ListService {
-  public lists: List[];
+  private lists: List[];
 
   constructor() { 
     this.lists = [];
@@ -17,7 +17,7 @@ export class ListService {
   }
 
   getOne(id: string){
-    return Object.assign({}, this.lists.find(l => l.id === id));
+    return this.lists.find(l => l.id = id);
   }
 
   create(list: List){
@@ -28,12 +28,12 @@ export class ListService {
     this.getOne(listId).todos.push(todo);
   }
 
-  deleteTodo(todo: Todo, listId: string){
-    const list = this.getOne(listId);
-    list.todos.splice(list.todos.indexOf(todo), 1);
-  }
-
   delete(list){
     this.lists.splice(this.lists.indexOf(list), 1);
+  }
+
+  deleteTodo(todo: Todo, listId: string){
+    const list = this.getOne(listId);
+list.todos.splice(list.todos.indexOf(todo), 1);
   }
 }

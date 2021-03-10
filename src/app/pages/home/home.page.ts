@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { List } from '../models/list';
-import { ListService } from '../services/list.service';
+import { List } from '../../models/list';
+import { ListService } from '../../services/list.service';
 import { ModalController } from '@ionic/angular';
-import { CreateListComponent } from '../modals/create-list/create-list.component';
-import { Router } from '@angular/router';
+import { CreateListComponent } from '../../modals/create-list/create-list.component';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +27,7 @@ export class HomePage implements OnInit {
     return await modal.present();
   }
 
-  async delete(list){
+  delete(list: List){
     this.listService.delete(list);
   }
 }
