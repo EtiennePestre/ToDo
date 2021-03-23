@@ -20,7 +20,7 @@ import { SharedModule } from './shared/shared.module';
   imports: [BrowserModule, 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     SharedModule,
     IonicModule.forRoot(), AppRoutingModule],
   providers: [

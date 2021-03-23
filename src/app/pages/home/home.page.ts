@@ -3,7 +3,21 @@ import { List } from '../../models/list';
 import { ListService } from '../../services/list.service';
 import { ModalController } from '@ionic/angular';
 import { CreateListComponent } from '../../modals/create-list/create-list.component';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+  DocumentChange,
+  DocumentChangeAction
+} from "@angular/fire/firestore";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
+import firebase from "firebase";
 
+export interface Item {
+  Name: string;
+  Owner: string;
+  id: string;
+}
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -12,8 +26,19 @@ import { CreateListComponent } from '../../modals/create-list/create-list.compon
 export class HomePage implements OnInit {
   private lists: List[];
 
-  constructor(private listService: ListService, public modalController: ModalController) {
-    this.lists = [];
+
+
+  private itemsCollection: AngularFirestoreCollection<Item>;
+  items: Observable<DocumentChangeAction<Item>[]>;
+
+  constructor(private listService: ListService, public modalController: ModalController, private afs: AngularFirestore) {
+    this.lists=[];
+
+    // .snapshotChanges() returns a DocumentChangeAction[], which contains
+    // a lot of information about "what happened" with each change. If you want to
+    // get the data and the id use the map operator.
+    this.itemsCollection = afs.collection<Item>('listes');
+    this.items = this.itemsCollection.snapshotChanges( );
   }
 
   ngOnInit(){
@@ -27,7 +52,10 @@ export class HomePage implements OnInit {
     return await modal.present();
   }
 
-  delete(list: List){
-    this.listService.delete(list);
+  delete(list: string){
+    const shirtsCollection = this.afs.doc<Item>('listes/'+list);
+    shirtsCollection.delete();
+
+
   }
 }

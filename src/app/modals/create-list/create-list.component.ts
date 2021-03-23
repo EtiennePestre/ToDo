@@ -3,7 +3,14 @@ import { ModalController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ListService } from 'src/app/services/list.service';
 import { List } from 'src/app/models/list';
+import {AngularFirestore} from "@angular/fire/firestore";
+import firebase from "firebase";
 
+export interface Item {
+  Name: string;
+  Owner: string;
+  id: string;
+}
 @Component({
   selector: 'app-create-list',
   templateUrl: './create-list.component.html',
@@ -14,7 +21,7 @@ export class CreateListComponent implements OnInit {
   newListForm: FormGroup;
 
   constructor(private modalController: ModalController, private formBuilder: FormBuilder,
-    private listService: ListService) {
+    private listService: ListService, private afs: AngularFirestore) {
    
   }
 
@@ -30,8 +37,14 @@ export class CreateListComponent implements OnInit {
 
   createNewList(){
     if(this.newListForm.valid){
-      this.listService.create(new List(this.newListForm.get('name').value));
+      const tmp: List  = new List(this.newListForm.get('name').value);
+      this.listService.create(tmp);
       this.dismissModal();
+      const shirtsCollection = this.afs.collection<Item>('listes');
+      firebase.auth().currentUser.getIdToken(true).then((user)=>{
+        shirtsCollection.add({ Name: tmp.name, Owner: user , id:tmp.id});
+      });
+
     }
   }
 
