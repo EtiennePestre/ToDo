@@ -34,6 +34,6 @@ export class ListService {
 
   deleteTodo(todo: Todo, listId: string){
     const list = this.getOne(listId);
-list.todos.splice(list.todos.indexOf(todo), 1);
+    list.todos.splice(list.todos.indexOf(todo), 1);
   }
 }
