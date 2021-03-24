@@ -9,8 +9,8 @@ import {
   DocumentChange,
   DocumentChangeAction
 } from "@angular/fire/firestore";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {map, switchAll, switchMap} from "rxjs/operators";
 import firebase from "firebase";
 
 export interface Item {
@@ -25,20 +25,47 @@ export interface Item {
 })
 export class HomePage implements OnInit {
   private lists: List[];
+  usr$: BehaviorSubject<string|null>;
 
 
 
   private itemsCollection: AngularFirestoreCollection<Item>;
   items: Observable<DocumentChangeAction<Item>[]>;
+  items2: DocumentChangeAction<Item>[];
 
   constructor(private listService: ListService, public modalController: ModalController, private afs: AngularFirestore) {
-    this.lists=[];
+    const user$ = new Subject<string>();
+    const queryObservable = user$.pipe(
+        switchMap(user =>
 
+            afs.collection<Item>('listes', ref => ref.where('Owner', '==', user)).snapshotChanges(
+
+            )
+        )
+    );
+
+    // subscribe to changes
+    queryObservable.subscribe(queriedItems => {
+      this.items2=queriedItems;
+      console.log(queriedItems);
+    });
+    this.items=queryObservable;
+
+
+    this.lists=[];
+    this.usr$ = new BehaviorSubject(null);
     // .snapshotChanges() returns a DocumentChangeAction[], which contains
     // a lot of information about "what happened" with each change. If you want to
     // get the data and the id use the map operator.
-    this.itemsCollection = afs.collection<Item>('listes');
-    this.items = this.itemsCollection.snapshotChanges( );
+
+
+      this.usr$ = new BehaviorSubject(null);
+      user$.next(firebase.auth().currentUser.uid);
+      //this.items = afs.collectionGroup('listes').snapshotChanges( ).pipe();
+
+      //this.items = afs.collectionGroup('listes', ref => ref.where('user', '==', user)).snapshotChanges( );
+
+
   }
 
   ngOnInit(){

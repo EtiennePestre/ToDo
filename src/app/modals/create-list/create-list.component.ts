@@ -41,9 +41,7 @@ export class CreateListComponent implements OnInit {
       this.listService.create(tmp);
       this.dismissModal();
       const shirtsCollection = this.afs.collection<Item>('listes');
-      firebase.auth().currentUser.getIdToken(true).then((user)=>{
-        shirtsCollection.add({ Name: tmp.name, Owner: user , id:tmp.id});
-      });
+      shirtsCollection.add({ Name: tmp.name, Owner: firebase.auth().currentUser.uid , id:tmp.id});
 
     }
   }

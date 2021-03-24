@@ -8,7 +8,7 @@
   <div id="container">
     <ion-list>
       <!-- Sliding item with text options on both sides -->
-      <ion-item-sliding *ngFor="let list of items | async">
+      <ion-item-sliding *ngFor="let list of items2">
         <ion-item [routerLink]="['/list-details/' + list.payload.doc.id ]" routerLinkActive="active">
           <ion-label>{{ list.payload.doc.data().Name }}</ion-label>
         </ion-item>
