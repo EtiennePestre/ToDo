@@ -1,7 +1,7 @@
 <ion-content>
   <ion-list>
     <!-- Sliding item with text options on both sides -->
-    <ion-item-sliding *ngFor="let todo of todos | async">
+    <ion-item-sliding *ngFor="let todo of todos2 ">
       <ion-item>
         <ion-label>{{ todo.payload.doc.data().Name }}</ion-label>
       </ion-item>

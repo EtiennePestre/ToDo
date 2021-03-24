@@ -10,7 +10,7 @@ import {List} from "../../models/list";
 export interface Item {
   Name: string;
   Description: string;
-  List: string;
+  ListId: string;
 }
 @Component({
   selector: 'app-create-todo',
@@ -40,7 +40,7 @@ ngOnInit(){
       const tmp: Todo  = new Todo(this.newTodoForm.get('name').value, this.newTodoForm.get('description').value);
       const shirtsCollection = this.afs.collection<Item>('todo');
       firebase.auth().currentUser.getIdToken(true).then((user)=>{
-        shirtsCollection.add({ Name: tmp.name, Description: tmp.description , List:this.listId});
+        shirtsCollection.add({ Name: tmp.name, Description: tmp.description , ListId:this.listId});
       });
 
     }
